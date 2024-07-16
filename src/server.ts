@@ -4,7 +4,7 @@ import 'dotenv/config'
 import { UserRoutes } from './users/routes/user.routes';
 import { ErrorHandler } from './common/middlewares';
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 function boostrap() {
   const app = express();
