@@ -1,16 +1,26 @@
 import NodeCache from 'node-cache';
+import { v4 as uuidv4 } from 'uuid';
+
+import { BadRequestException, NotFoundException } from '../../common/exceptions';
 import { User } from '../models/User';
-import { NotFoundException } from '../../common/exceptions';
 
 const nodeCache = new NodeCache({ stdTTL: 600000, checkperiod: 600000 });
 export class UserService {
   
   public createUser(name: string, email: string, age: number): User {
-    // Todo: Agregar uuid para generar los ids
+    const allUsers = this.getUsers();
 
-    const user = new User('12', name, email, age);
+    const userExists = allUsers.find((user: User) => user.email === email);
 
-    const v = nodeCache.set<string>('users', JSON.stringify([user]));
+    if (userExists) {
+      throw new BadRequestException(`User with email ${ email } already exists`);
+    }
+
+    const user = new User(uuidv4(), name, email, age);
+
+    allUsers.push(user);
+
+    nodeCache.set<string>('users', JSON.stringify(allUsers));
 
     return user;
   }
@@ -30,6 +40,25 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(`User with id ${ id } not found`);
     }
+
+    return user;
+  }
+
+  public updateUser(id: string, data: Partial<User>): User {
+    const users = this.getUsers();
+
+    let user = this.getUserById(id);
+
+    // Update user data
+    user = { 
+      ...user, 
+      ...data 
+    };
+
+    // Save updated user
+    const allUsers = users.filter((user: User) => user.id !== id);
+    allUsers.push(user);
+    nodeCache.set('users', JSON.stringify(allUsers));
 
     return user;
   }

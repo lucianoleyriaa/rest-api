@@ -42,7 +42,12 @@ export class UserController {
   }
 
   public updateUser(req: Request, res: Response, next: NextFunction) {
-    
+    try {
+      const updatedUser = this.userService.updateUser(req.params.id, req.body);
+      return this.responseService.success<User>(res, 200, updatedUser);
+    } catch (error) {
+      next(error);
+    }
   }
 
   public deleteUser(req: Request, res: Response, next: NextFunction) {
