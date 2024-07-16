@@ -13,13 +13,13 @@ function boostrap() {
 
   // Routes
   app.use('/api/users', UserRoutes);
-  // TODO: Evaluar si lo podemos cambiar el nombre de run
-  app.use(ErrorHandler.run)
+
+  // Global Error handler
+  app.use(ErrorHandler.run())
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${ PORT }`)
   })
-
 }
 
 boostrap();
