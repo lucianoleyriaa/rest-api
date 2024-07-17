@@ -52,7 +52,7 @@ export class UserService {
     let user = this.getUserById(id);
 
     // Check for duplicate emails
-    if (data.email && users.find((user: User) => user.email === data.email)) {
+    if (data.email && users.find((user: User) => (user.email === data.email && user.id !== id))) {
       throw new BadRequestException(`User with email ${ data.email } already exists`)
     }
 
