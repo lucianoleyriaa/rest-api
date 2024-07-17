@@ -16,11 +16,18 @@ function boostrap() {
   // Routes
   app.use('/api/users', UserRoutes);
 
-  // Global Error handler
-  app.use(ErrorHandler.run())
-
   // Swagger configuration
   app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
+
+  app.use('/*', (req, res, next) => {
+    res.status(404).json({ 
+      status: 'error',
+      message: 'Endpoint not found' 
+    });
+  });
+
+  // Global Error handler
+  app.use(ErrorHandler.run())
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${ PORT }`)

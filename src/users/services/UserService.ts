@@ -16,7 +16,9 @@ export class UserService {
       throw new BadRequestException(`User with email ${ email } already exists`);
     }
 
-    const user = new User(uuidv4(), name, email, age);
+    const id = uuidv4();
+
+    const user = new User(id, name, email, age);
 
     allUsers.push(user);
 
