@@ -56,7 +56,7 @@ export class UserService {
       throw new BadRequestException(`User with email ${ data.email } already exists`)
     }
 
-    // Update user data
+    // Update user data - Users can update all fields (name, email, and age) simultaneously or modify just some of them (e.g., email).
     user = { 
       ...user, 
       ...data 
