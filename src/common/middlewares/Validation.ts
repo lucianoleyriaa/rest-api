@@ -16,16 +16,5 @@ export class Validation {
       next();
     }
   }
-  public static validateParams<T>(schema: Joi.ObjectSchema<T>) {
-    return (req: Request, res: Response, next: NextFunction) => {
-      const { error } = schema.validate(req.body);
 
-      if (error) {                
-        const errorMessage = error.details[0].message.replaceAll('"', '');
-        throw new BadRequestException(errorMessage);
-      }
-
-      next();
-    }
-  }
 }

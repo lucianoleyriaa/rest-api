@@ -7,7 +7,7 @@ export class ErrorHandler {
 
   public static run() {
     return (err: any, req: Request, res: Response, next: NextFunction) => {
-      this.responseService.error(res, err.statusCode, err.message);
+      this.responseService.error(res, err.statusCode || 500, err.message || 'Internal server error');
     };
   }
 

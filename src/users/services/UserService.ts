@@ -16,7 +16,9 @@ export class UserService {
       throw new BadRequestException(`User with email ${ email } already exists`);
     }
 
-    const user = new User(uuidv4(), name, email, age);
+    const id = uuidv4();
+
+    const user = new User(id, name, email, age);
 
     allUsers.push(user);
 
@@ -48,6 +50,11 @@ export class UserService {
     const users = this.getUsers();
 
     let user = this.getUserById(id);
+
+    // Check for duplicate emails
+    if (data.email && users.find((user: User) => user.email === data.email)) {
+      throw new BadRequestException(`User with email ${ data.email } already exists`)
+    }
 
     // Update user data
     user = { 
