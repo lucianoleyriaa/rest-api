@@ -17,4 +17,4 @@ WORKDIR /usr/app/rest
 COPY --from=build /usr/app/rest/node_modules ./node_modules
 COPY --from=build /usr/app/rest/dist ./dist
 EXPOSE 3000
-CMD [ "node", "./dist/server.js" ]
+CMD [ "node", "./dist/src/server.js" ]
