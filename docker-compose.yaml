@@ -4,6 +4,6 @@ services:
     container_name: rest-api
     build: .
     ports:
-      - 3000:${PORT}
+      - ${PORT}:${PORT}
     environment:
       - PORT=${PORT}
